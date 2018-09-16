@@ -1,20 +1,24 @@
 # IPLD Mindmap
 
 ## Context
-We're in a personal contest to understand and try to change how do we organize our own information, and how it relates to others.
+We're in a personal contest to understand and try to change how do we organize our own information, and how it relates to others. The full explanation of why and how is something we're working on.
 
-Since the scope of the project is inmense, we're going to tackle small projects to get insight, while creating new tools to relate to information.
+Since the scope of the project is inmense, we're going to tackle small projects to get insight, while creating new tools to allow new ways to relate to information.
 
-This is the first "project" we try to tackle. While creating a tool is the main goal, we also want to explore working frameworks and diferent documentation praxis.
+This is the first "project" we try to tackle. While creating a tool is the main goal, is likley that we will also be exploring  working frameworks and different documentation praxis.
+
+Documentation is important to us, because we are looking to solve problems in the best way possible, so if the logic behind is not good enough, we want to know. And probably you can help!
+
+:)
 
 ## Mindmap
 We like the idea of mindmap, a tool that allows to organize information in the way that your brain works and not in a simplified way restricted by a user interface or a data structure.
 
-In the wikpedia entry says that mindmaps are hierachial and around a single concept. We don't care about that.
+[The wikpedia entry](https://en.wikipedia.org/wiki/Mind_map) says that mindmaps are hierachial and around a single concept. We don't care about that.
 
 ## Original specs
 
-- [ ] Create a tool that would allow to represent what you could do in an analog mindmap in a digital format.
+- [ ] Create a tool that would allow to represent what you could do in a analog mindmap, but in a digital format.
 - [ ] The priority is to design the proper data structure.
     - [ ] It needs to work on a global domain. This means that two different mindmaps pointing to the same concept should converge if put together
     - [ ] Extending IPLD
@@ -24,22 +28,22 @@ In the wikpedia entry says that mindmaps are hierachial and around a single conc
 - [ ] Eventually we'll explore authorship, accessibility, networking... but not yet.
 - [ ] It should have some basic visualization
     - [ ] The tool is render agnostic
-    - [ ] The render should be any piece of data that can understand the data structure 
 - [ ] We should document the process and the reasoning behind as close as possible
-- [ ] Via web
-    - [ ] Because of ease of use and development, a tool that works on the web first seems logical
+- [ ] It will be via web. Because of ease of use and development.
+- MVP approach. Keep things lean.
 - [ ] Nice to have
-    - [ ] Load content and ui via IPFS
-    - [ ] Should be compatible with any IPLD object
+    - [ ] Load content and render via IPFS
+    - [ ] Compatible with any IPLD object
 
 
 ## Data structure
 
 ### Nodes in the global domain
-Because the mind maps could live on a global domain, they need to be able to be broken into pieces.
-The atomic piece of a mindmap is a node.
+Global domain means that there is only one single giant mindmap.
 
-This implies that each node needs to contain and describe the relationships with all the other nodes it is interested, since, if broken apart, it will loose information it cares about.
+This means that in needs to be able to be broken into pieces. The atomic piece of a mindmap is a node.
+
+This implies that each node needs to contain and describe the relationships with all the other nodes it is interested, because if broken apart, it will loose information it cares about.
 
 It makes a node behave selfishly, which is the logical behaviour in a distributed system.
 
@@ -61,7 +65,7 @@ A subset representation of the mindmap will then be just a lists of nodes.
 ### Relationships and nodes
 We understand relationship as how a node relates to another node.
 
-A node can an arbitrary number of relationships. For ease of use,and to save some memmory this seems the logical representation:
+A node can have an arbitrary number of relationships. For ease of use, and to save some memory this seems the logical representation:
 
 ```
 [
@@ -96,9 +100,61 @@ But because we're on a global domain, the same node may have difrent relationshi
 ```
 
 ### Relationship definition
-To define a relationship we need two nodes and the type of relationship
+To define a relationship we need two nodes and a definition of the type of relationship they have between them.
 
-Because the selfish behaviour of a node described above, a reltionship is described from the perspective this node.
+
+Because the selfish behaviour of a node described above, a reltionship is always described from the perspective of the node being represented towards the "destination node"
+
+```
+[
+    {
+        nodeName:"Son",
+        relationships: [
+            {
+                destinationNode: "Dad"
+                type: "Is my dad"
+            }
+        ]
+    },
+    {
+        nodeName:"Dad",
+        relationships: [
+            {
+                destinationNode: "Son"
+                type: "Is my son"
+            }
+        ]
+    },
+]
+```
+The selfhish behaviour implies that there is no way to guarantee the integrity of the information, since the nodes could express conflicting information. And that's ok.
+
+```
+[
+    {
+        nodeName:"Son",
+        relationships: [
+            {
+                destinationNode: "Dad"
+                type: "Is NOT my dad"
+            }
+        ]
+    },
+    {
+        nodeName:"Dad",
+        relationships: [
+            {
+                destinationNode: "Son"
+                type: "Is my son"
+            }
+        ]
+    },
+]
+```
+### Infinite relationship types
+Because one of the goals is to limit as little as possible the information represented, we need to allow for any type of relationship. And this means that there is no specific way to define a type.
+
+### Render vs structure
 
 
 ## Log
