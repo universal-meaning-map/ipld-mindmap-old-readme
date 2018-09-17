@@ -14,7 +14,7 @@ Documentation is important to us, because we are looking to solve problems in th
 ## Mindmap
 We like the idea of mindmap, a tool that allows to organize information in the way that your brain works and not in a simplified way restricted by a user interface or a data structure.
 
-[The wikpedia entry](https://en.wikipedia.org/wiki/Mind_map) says that mindmaps are hierachial and around a single concept. We don't care about that.
+[The wikpedia entry](https://en.wikipedia.org/wiki/Mind_map) says that mindmaps are hierachial and around a single concept. Our aproach is more generic. We want a tool to organize our brain, and this implies non hierachical structures.
 
 ## Original specs
 
