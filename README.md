@@ -152,9 +152,18 @@ The selfhish behaviour implies that there is no way to guarantee the integrity o
 ]
 ```
 ### Infinite relationship types
-Because one of the goals is to limit as little as possible the information represented, we need to allow for any type of relationship. And this means that there is no specific way to define a type.
+Because one of the goals is to limit as little as possible the information represented, we need to allow for any type of relationship. And this means that there may be any arbitrary number of types.
 
 ### Render vs structure
+_This is a work in progress_
+
+If we take a classic mindmap, the connections and nodes may have different shapes, sizes, colors... This is what the render should do. It needs to understand the relationships and the nodes so they can be drawn.
+
+It would be easy to add properties such as "color", so the render can pick it up. But unless this is something intrinsic of the node or relationship, should be left out of the equation.
+
+This is because the final goal is to be able capture and organize concepts, and not to visualize them in a specific way. We need to keep the data render agnostic. It just happen that we choose a mindmap like render to start exploring how to organize and render this type of data.
+
+
 
 
 ## Log
