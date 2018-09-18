@@ -1,4 +1,4 @@
-# IPLD Mindmap (hello world)
+# IPLD Mindmap
 
 ## Context
 We're in a personal contest to understand and try to change how do we organize our own information, and how it relates to others. The full explanation of why and how is something we're working on.
@@ -72,7 +72,7 @@ A node can have an arbitrary number of relationships. For ease of use, and to sa
 [
     {
         nodeName:"Node1",
-        relationships: [ relationship1, relationship2]
+        relationships: [relationship1, relationship2]
     },
     {
         nodeName:"Node2",
@@ -81,17 +81,17 @@ A node can have an arbitrary number of relationships. For ease of use, and to sa
 ]
 ```
 
-But because we're on a global domain, the same node may have difrent relationships in a different subset of the mindmap. This implies that it can also be represented like this:
+But because we're on a global domain, the same node may have different relationships in a different subset of the mindmap. This implies that it can also be represented like this:
 
 ```
 [
     {
         nodeName:"Node1",
-        relationships: [ relationship1]
+        relationships: [relationship1]
     },
     {
         nodeName:"Node1",
-        relationships: [ relationship2]
+        relationships: [relationship2]
     },
     {
         nodeName:"Node2",
