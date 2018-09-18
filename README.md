@@ -1,4 +1,4 @@
-# IPLD Mindmap
+# IPLD Mindmap (ssh?)
 
 ## Context
 We're in a personal contest to understand and try to change how do we organize our own information, and how it relates to others. The full explanation of why and how is something we're working on.
