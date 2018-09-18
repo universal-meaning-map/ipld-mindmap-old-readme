@@ -1,0 +1,28 @@
+{
+  "name": "ipld-mindmap",
+  "version": "1.0.0",
+  "description": "## Context We're in a personal contest to understand and try to change how do we organize our own information, and how it relates to others. The full explanation of why and how is something we're working on.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arxiu/ipld-mindmap.git"
+  },
+  "keywords": [
+    "ipld",
+    "mindmap",
+    "ipfs"
+  ],
+  "author": "Xavi Vives <xavings@gmail.com> (http://xavivives.com/index)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arxiu/ipld-mindmap/issues"
+  },
+  "homepage": "https://github.com/arxiu/ipld-mindmap#readme",
+  "dependencies": {
+    "ipfs": "^0.32.1"
+  }
+}
