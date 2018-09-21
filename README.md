@@ -55,10 +55,10 @@ A subset representation of the mindmap will then be just a lists of nodes.
 ```
 [
     {
-        nodeName:"Node1"
+        "nodeId":"Node1"
     },
     {
-        nodeName:"Node2"
+        "nodeId":"Node2"
     },
 ]
 ```
@@ -71,12 +71,12 @@ A node can have an arbitrary number of relationships. For ease of use, and to sa
 ```
 [
     {
-        nodeName:"Node1",
-        relationships: [relationship1, relationship2]
+        "nodeId":"Node1",
+        "relationships": [relationship1, relationship2]
     },
     {
-        nodeName:"Node2",
-        relationships: []
+        "nodeId":"Node2",
+        "relationships": []
     },
 ]
 ```
@@ -86,31 +86,32 @@ But because we're on a global domain, the same node may have different relations
 ```
 [
     {
-        nodeName:"Node1",
-        relationships: [relationship1]
+        "nodeId":"Node1",
+        "relationships": [relationship1]
     },
     {
-        nodeName:"Node1",
-        relationships: [relationship2]
+        "nodeId":"Node1",
+        "relationships": [relationship2]
     },
     {
-        nodeName:"Node2",
-        relationships: []
+        "nodeId":"Node2",
+        "relationships": []
     },
 ]
 ```
 
 ### Relationship definition
-To define a relationship we need two nodes and a definition of the type of relationship they have between them.
+To define a relationship we need two nodes and a definition of the `type` of relationship they have between them.
 
+The `type` is not mandatory. 
 
 Because the selfish behaviour of a node described above, a reltionship is always described from the perspective of the node being represented towards the `destination node`
 
 ```
 [
     {
-        nodeName:"Son",
-        relationships: [
+        "nodeId":"Son",
+        "relationships": [
             {
                 destinationNode: "Dad"
                 type: "Is my dad"
@@ -118,8 +119,8 @@ Because the selfish behaviour of a node described above, a reltionship is always
         ]
     },
     {
-        nodeName:"Dad",
-        relationships: [
+        "nodeId":"Dad",
+        "relationships": [
             {
                 destinationNode: "Son"
                 type: "Is my son"
@@ -133,8 +134,8 @@ The selfhish behaviour implies that there is no way to guarantee the integrity o
 ```
 [
     {
-        nodeName:"Son",
-        relationships: [
+        "nodeId":"Son",
+        "realtionships": [
             {
                 destinationNode: "Dad"
                 type: "Is NOT my dad"
@@ -142,8 +143,8 @@ The selfhish behaviour implies that there is no way to guarantee the integrity o
         ]
     },
     {
-        nodeName:"Dad",
-        relationships: [
+        "nodeId":"Dad",
+        "realtionships": [
             {
                 destinationNode: "Son"
                 type: "Is my son"
@@ -152,6 +153,34 @@ The selfhish behaviour implies that there is no way to guarantee the integrity o
     },
 ]
 ```
+
+### IPLD links ("/) and CIDs as nodeIDs
+In the previous examples we've used the "nodeId" field, to uniquely identifiy a node.
+This was just used for explanation purposes. It does not make sense in a global domain.
+
+Instead we will use the [CID](https://github.com/ipld/cid) of the node itself. This is basically its hashed value.
+
+The problem with it is that we may not have this value to start, since the data may not be directly referenced. IPLD uses the "/" and the "data" field to point to the data. You can read more [here](https://github.com/ipld/specs/blob/master/IPLD.md).
+
+This means that when we originally get a IPLD object representing a bunch of nodes, the content of these node can be referenced in different manners.
+
+Directly pointing to the CID:  
+`"/" : "QmUmg7BZC1YP1ca66rRtWKxpXp77WgVHrnv263JtDuvs2k"`
+
+Providing the data istself (we need to hash it to get the CID):  
+`"data" :"I'm the node content"`
+
+Using a merkle-path (we need to traverse it and then hash it to get the CID):  
+`"/" : "QmUmg7BZC1YP1ca66rRtWKxpXp77WgVHrnv263JtDuvs2k/a/b/c/d"`
+
+
+In the first to cases, we can get the CID inmediatly. In the case of the merkle-path we may not obtain the CID, or it may take a while.
+- We need to retrieve the IPFS object first, so we can traverse it.
+- The IPFS object may not be available
+- Maybe we don't want to traverse, to limit subset.
+
+In those cases, and while is not resolved, we can use the merkle-path in itself as a unique ID
+
 ### Infinite relationship types
 Because one of the goals is to limit as little as possible the information represented, we need to allow for any type of relationship. And this means that there may be any arbitrary number of types.
 
@@ -165,7 +194,62 @@ It would be easy to add properties such as "color", so the render can pick it up
 This is because the final goal is to be able capture and organize concepts, and not to visualize them in a specific way. We need to keep the data render agnostic. It just happen that we choose a mindmap like render to start exploring how to organize and render this type of data.
 
 
+### Render format
+The render should be as dumb as possible and not have to care about how the data is gathered.
+So, we shuld prepare it before handing it out to it.
 
+As of now it seems that key-value list of `CIDs` and `node objects` is the best option. This list should already have merged any duplicated node.
 
-## Log
+Assming this data set:
+```
+[
+    {
+        "/":"<CID1>",
+        "relationships": [
+            {
+                "destinationNode": "<CID2>"
+            }
+        ]
+    },
+    {
+        "/":"<CID1>",
+        "relationships": [
+            {
+                "destinationNode": "<CID3>"
+            }
+        ]
+    },
+    {
+        "/":"<CID2>"
+    },
+]
+```
+
+Should be mapped to:
+
+```
+{
+    "<CID1>": {
+        "/":"<CID1>",
+        relationships: [
+            {
+                "destinationNode": "<CID2>"
+            },
+            {
+                "destinationNode": "<CID3>"
+            }
+        ]
+    },
+    "<CID2>":{
+        "/":"<CID2>",
+    },
+    "<CID3>":{
+        "/":"<CID3>",
+    }
+}
+```
+
+## Log (just to give a vague idea of the progress)
 - `13/09/2018`:  We've figured out a basic data structure to start. Defined in the section above
+- `18/09/2018`:  We started exploring a first render: [ipld-mindmap-pts-render](https://github.com/arxiu/ipld-mindmap-pts-render)
+- `21/09/2018`: Documenting node identification. Documenting render format.
