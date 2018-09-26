@@ -44,13 +44,17 @@ For _Global domain_ we understand that there is only one single giant mindmap.
 
 Which means that we need to be able to break in down into smaller subsets/pieces. The atomic piece of a mindmap is a node.
 
-This implies that each node needs to contain and describe the relationships with all the other nodes it is interested, because if broken apart, it will loose information it cares about.
+**This implies that each node needs to contain and describe the relationships with all the other nodes it is interested, because if broken apart, it will loose information it cares about.**
+
+In other words, relationships come out of the current node, never in (at least from the nodes perspective). If that was the case we will have a duplicated source of truth (the relationship from the incoming node and the relationship from the current node). This does not mean that the relatshionship can't represent a direction.
 
 It makes a node behave selfishly, which is the logical behaviour in a distributed system.
 
 Since we're in a global domain we will need to represent a subset of the global mindmap.
 
-A subset representation of the mindmap will then be just a lists of nodes.
+A subset representation of the mindmap will then be just a lists of nodes
+
+_In the following examples nodes will be shown as part of an array, but it likley makes more sense to be handled independently (The array should not be part of the IPLD object?)_
 
 ```
 [
@@ -196,9 +200,9 @@ This is because the final goal is to be able capture and organize concepts, and 
 
 ### Render format
 The render should be as dumb as possible and not have to care about how the data is gathered.
-So, we shuld prepare it before handing it out to it.
+So, we should prepare it before handing it out to it.
 
-As of now it seems that key-value list of `CIDs` and `node objects` is the best option. This list should already have merged any duplicated node.
+Right now, and without much exploration, a list of `CIDs` and `node objects` seems a good aproach. This list should already have merged any duplicated node.
 
 Assming this data set:
 ```
@@ -253,4 +257,4 @@ Should be mapped to:
 - `13/09/2018`: We've figured out a basic data structure to start. Defined in the section above
 - `18/09/2018`: We started exploring a first render: [ipld-mindmap-pts-render](https://github.com/arxiu/ipld-mindmap-pts-render)
 - `21/09/2018`: Documenting node identification. Documenting render format.
-- `26/09/2019`: Render shows basic nodes with mock data
+- `26/09/2019`: Render shows basic nodes with mock data, nodes are selectable and can be navigated with arrow keys
