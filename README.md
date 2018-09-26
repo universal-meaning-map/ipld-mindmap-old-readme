@@ -250,6 +250,7 @@ Should be mapped to:
 ```
 
 ## Log (just to give a vague idea of the progress)
-- `13/09/2018`:  We've figured out a basic data structure to start. Defined in the section above
-- `18/09/2018`:  We started exploring a first render: [ipld-mindmap-pts-render](https://github.com/arxiu/ipld-mindmap-pts-render)
+- `13/09/2018`: We've figured out a basic data structure to start. Defined in the section above
+- `18/09/2018`: We started exploring a first render: [ipld-mindmap-pts-render](https://github.com/arxiu/ipld-mindmap-pts-render)
 - `21/09/2018`: Documenting node identification. Documenting render format.
+- `26/09/2019`: Render shows basic nodes with mock data
