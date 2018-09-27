@@ -159,34 +159,38 @@ The selfhish behaviour implies that there is no way to guarantee the integrity o
 ```
 
 ### IPLD links ("/) and CIDs as nodeIDs
-In the previous examples we've used the "nodeId" field, to uniquely identifiy a node.
+In the previous examples we've used the `nodeId` field, to uniquely identifiy a node.
 This was just used for explanation purposes. It does not make sense in a global domain.
 
-Instead we will use the [CID](https://github.com/ipld/cid) of the node itself. This is basically its hashed value.
+Instead we will use the [CID](https://github.com/ipld/cid) of the node itself. This is basically its hashed value of the content of the node (not the node itself)
 
-The problem with it is that we may not have this value to start, since the data may not be directly referenced. IPLD uses the "/" and the "data" field to point to the data. You can read more [here](https://github.com/ipld/specs/blob/master/IPLD.md).
+The problem with it is that we may not have this value to start, since the data may not be directly referenced. IPLD uses the `/` and the `data` field to point to the data. You can read more [here](https://github.com/ipld/specs/blob/master/IPLD.md).
 
 This means that when we originally get a IPLD object representing a bunch of nodes, the content of these node can be referenced in different manners.
 
 Directly pointing to the CID:  
 `"/" : "QmUmg7BZC1YP1ca66rRtWKxpXp77WgVHrnv263JtDuvs2k"`
 
-Providing the data istself (we need to hash it to get the CID):  
+Providing the data itself (we need to hash it to get the CID):  
 `"data" :"I'm the node content"`
 
 Using a merkle-path (we need to traverse it and then hash it to get the CID):  
 `"/" : "QmUmg7BZC1YP1ca66rRtWKxpXp77WgVHrnv263JtDuvs2k/a/b/c/d"`
 
 
-In the first to cases, we can get the CID inmediatly. In the case of the merkle-path we may not obtain the CID, or it may take a while.
+In the first two cases, we can get the CID inmediatly. In the case of the merkle-path we may not obtain the CID, or it may take a while.
 - We need to retrieve the IPFS object first, so we can traverse it.
 - The IPFS object may not be available
-- Maybe we don't want to traverse, to limit subset.
+- Maybe we don't want to traverse,  the subset may be very big and we want to limit it.
 
 In those cases, and while is not resolved, we can use the merkle-path in itself as a unique ID
 
 ### Infinite relationship types
-Because one of the goals is to limit as little as possible the information represented, we need to allow for any type of relationship. And this means that there may be any arbitrary number of types.
+One of our frustrations and things we want are exploring in detail, is how can we extend how do we relate to information beyond what a user interface or the underlying system allows.
+
+In this case, it translates on allowing the user to definie how a piece of information relates to another. So a `relationship` can have a `type`, which is nothing but a `CID` pointing to a expression of the type of relationship.
+
+A `type` of `relationship` could be "depends on", "is my dad", "contains"... or anything (text or not). It is the job of the render to understand what this `type` means and how to represent it.
 
 ### Render vs structure
 _This is a work in progress_
@@ -258,3 +262,4 @@ Should be mapped to:
 - `18/09/2018`: We started exploring a first render: [ipld-mindmap-pts-render](https://github.com/arxiu/ipld-mindmap-pts-render)
 - `21/09/2018`: Documenting node identification. Documenting render format.
 - `26/09/2019`: Render shows basic nodes with mock data, nodes are selectable and can be navigated with arrow keys
+- `27/09/2019`: Converting this repo in a React-Create-App static page.
