@@ -186,7 +186,7 @@ In the first two cases, we can get the CID inmediatly. In the case of the merkle
 In those cases, and while is not resolved, we can use the merkle-path in itself as a unique ID
 
 ### Infinite relationship types
-One of our frustrations and things we want are exploring in detail, is how can we extend how do we relate to information beyond what a user interface or the underlying system allows.
+One of our frustrations and things we are exploring in detail, is how can we extend how do we relate to information beyond what a user interface or the underlying system allows.
 
 In this case, it translates on allowing the user to definie how a piece of information relates to another. So a `relationship` can have a `type`, which is nothing but a `CID` pointing to a expression of the type of relationship.
 
@@ -261,5 +261,5 @@ Should be mapped to:
 - `13/09/2018`: We've figured out a basic data structure to start. Defined in the section above
 - `18/09/2018`: We started exploring a first render: [ipld-mindmap-pts-render](https://github.com/arxiu/ipld-mindmap-pts-render)
 - `21/09/2018`: Documenting node identification. Documenting render format.
-- `26/09/2019`: Render shows basic nodes with mock data, nodes are selectable and can be navigated with arrow keys
-- `27/09/2019`: Converting this repo in a React-Create-App static page.
+- `26/09/2018`: Render shows basic nodes with mock data, nodes are selectable and can be navigated with arrow keys
+- `27/09/2018`: Converting this repo into a React-Create-App and the [ipld-mindmap-pts-render](https://github.com/arxiu/ipld-mindmap-pts-render) into a standalone component.
