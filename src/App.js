@@ -1,7 +1,10 @@
-import './IpfsController'
-
 import React, { Component } from 'react'
 import  IPLDRender  from 'ipld-mindmap-ptsjs-render'
+//import './IpfsController'
+import IPFS from 'ipfs'
+
+const cids = ['zdpuAvYJaZxBjTV4WH3irwThm5t2a7yTccoN9cWpDmtV4CiNz']
+
 
 export default class App extends Component {
     constructor(props) {
@@ -12,6 +15,8 @@ export default class App extends Component {
             currentZoom: 1,
             lastZoom: 1
         }
+        
+        this.ipfs = new IPFS()
     }
 
     handleChange(event) {
@@ -25,6 +30,7 @@ export default class App extends Component {
     onPinchStart(e) {
         this.setState({ lastZoom: this.state.currentZoom })
     }
+
     onPinchMove(e) {
         let zoomDelta = e.zoom
         let currentZoom = this.state.lastZoom * zoomDelta
@@ -40,6 +46,8 @@ export default class App extends Component {
                 onClick={this.handleClick.bind(this)}>
 
                 <div><IPLDRender
+                    ipfs = {this.ipfs}
+                    cids = {cids}
                     name="IPLDRender"
                     background="#fff"
                     onPinchStart={this.onPinchStart.bind(this)}
