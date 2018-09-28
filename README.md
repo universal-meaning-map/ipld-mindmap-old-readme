@@ -263,3 +263,6 @@ Should be mapped to:
 - `21/09/2018`: Documenting node identification. Documenting render format.
 - `26/09/2018`: Render shows basic nodes with mock data, nodes are selectable and can be navigated with arrow keys
 - `27/09/2018`: Converting this repo into a React-Create-App and the [ipld-mindmap-pts-render](https://github.com/arxiu/ipld-mindmap-pts-render) into a standalone component.
+
+## Todo
+- Use https://github.com/ipld/js-ipld-dag-pb
