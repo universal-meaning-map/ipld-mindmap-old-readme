@@ -3,7 +3,11 @@ import  IPLDRender  from 'ipld-mindmap-ptsjs-render'
 //import './IpfsController'
 import IPFS from 'ipfs'
 
-const cids = ['zdpuAvYJaZxBjTV4WH3irwThm5t2a7yTccoN9cWpDmtV4CiNz']
+const cids = [
+    'zdpuAvYJaZxBjTV4WH3irwThm5t2a7yTccoN9cWpDmtV4CiNz',
+    'zdpuAyvmoJWTiVrCv1aCHV5xUZ1fxUf4XLkrprKPMMFCNKfj3',
+    'zdpuAxh9rv4ZTUFfogJh7ysjBW7F5iKEyPZ3somVv2B3UvtkS'
+]
 
 
 export default class App extends Component {
