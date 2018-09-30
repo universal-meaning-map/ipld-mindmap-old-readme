@@ -30,10 +30,10 @@ We like the idea of mindmap, a tool that allows to organize information in the w
 - [ ] The tool is render agnostic. Diferent renders can be eventually used.
 - [ ] We should document the process and the reasoning behind as close as possible
 - [ ] It should work on the web. Because of ease of use and development.
-- MVP approach. Keep things lean.
+- [ ] MVP approach. Keep things lean.
 - [ ] Nice to have
     - [ ] Load content and render via IPFS
-    - [ ] Compatible with any IPLD object
+    - [ ] Compatible with any IPFS/IPLD object
 
 Deadline: end of September 2018
 
@@ -257,12 +257,54 @@ Should be mapped to:
 }
 ```
 
+
+
+
+## Dimensions and recursivitiy
+_Work in progress_
+
+It is a requirement for our mindmap design to be able to represent relationships that our mind can naturally concieve such as a bi-directional link ( `A` ⇄ `B` ) or a [`direct graph`](https://en.wikipedia.org/wiki/Directed_graph) like connections ( `A` → `B` → `C` → `A` )
+
+We can express a relationships between two `CID`s as coordinate. Where the abscissa is the origin `CID` and the ordinate is the target `CID`. (`originCID`, `targetCID`)
+
+A bi-directional link: (`A`, `B`), (`B`, `B`)  
+And the direct graph: (`A`, `B`), (`B`, `C`), (`C`, `A`)
+
+The problem is that the `IPFS` domain as single dimensional space. The points of this spaces are the `CID`s (assuming no collisions), which are just numbers on a line. This is a property we inherit from its [`DAG`](https://en.wikipedia.org/wiki/Directed_graph) structure.
+
+`IPLD` and therefore a `mindmap node` are part of the `IPFS` domain, so they live on this 1D world.
+This prevents us from making rescursive/ciclic references like the examples above, since pointing s, breaking the relationship in the process.
+
+If we treat the `mindmap node` like it lives in a paral.lel domain we gain an extra degree of freedom.
+Now we have two 1D spaces. Both domains are made out `CID`s of a [multi-hash](https://github.com/multiformats/multihash) tuple. The `mindmap domain` only contains the `mindmap node`s set.  And the `content domain` contains all the `IPFS` `CID`s except the `mindmap node` `CID`s.  
+
+The trick here is that the node identifier is not its `CID` but the `originCID` (different dimension) and the two parameters of the relationship are from the `content domain` (they can't point to a `mindmap node` because it does not exist in their world).
+
+`nX`(`cA`) → `cB` 
+`nY`(`cB`) → `cC`
+`nZ`(`cC`) → `cA` 
+
+This implies that a node should not point to another node. Since it will be changing dimensions.
+
+A [`node cluster`](###-node-cluster) is the set of nodes that are poining to the same `CID`.
+a coordinate in this space, where the abcissa is the content that is pointing at, and the ordenate is 
+
+_I will love to get more thoughts on this, and some help in improving the wording_
+
+### Relationship dimensions
+
+
+## Terminology
+
+### Node cluster
+One of the [original specs](##-original-specs) was:
+> It needs to work on a global domain. This means that two different mindmaps pointing to the same concept should converge if put together
+
+We call this convergence a `node cluster` (_would love a better name_). In other words is the set of nodes that are poining to the same `CID`.
+
 ## Log (just to give a vague idea of the progress)
 - `13/09/2018`: We've figured out a basic data structure to start. Defined in the section above
 - `18/09/2018`: We started exploring a first render: [ipld-mindmap-pts-render](https://github.com/arxiu/ipld-mindmap-pts-render)
 - `21/09/2018`: Documenting node identification. Documenting render format.
 - `26/09/2018`: Render shows basic nodes with mock data, nodes are selectable and can be navigated with arrow keys
 - `27/09/2018`: Converting this repo into a React-Create-App and the [ipld-mindmap-pts-render](https://github.com/arxiu/ipld-mindmap-pts-render) into a standalone component.
-
-## Todo
-- Use https://github.com/ipld/js-ipld-dag-pb
