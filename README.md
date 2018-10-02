@@ -292,7 +292,7 @@ a coordinate in this space, where the abcissa is the content that is pointing at
 _I will love to get more thoughts on this, and some help in improving the wording_
 
 ### Relationship dimensions
-
+...
 
 ## Terminology
 

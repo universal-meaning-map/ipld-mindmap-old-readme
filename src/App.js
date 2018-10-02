@@ -4,9 +4,10 @@ import  IPLDRender  from 'ipld-mindmap-ptsjs-render'
 import IPFS from 'ipfs'
 
 const cids = [
-    'zdpuAvYJaZxBjTV4WH3irwThm5t2a7yTccoN9cWpDmtV4CiNz',
-    'zdpuAyvmoJWTiVrCv1aCHV5xUZ1fxUf4XLkrprKPMMFCNKfj3',
-    'zdpuAxh9rv4ZTUFfogJh7ysjBW7F5iKEyPZ3somVv2B3UvtkS'
+    //'zdpuAvYJaZxBjTV4WH3irwThm5t2a7yTccoN9cWpDmtV4CiNz',//not using link properly
+    //'zdpuAyvmoJWTiVrCv1aCHV5xUZ1fxUf4XLkrprKPMMFCNKfj3',
+    //'zdpuAxh9rv4ZTUFfogJh7ysjBW7F5iKEyPZ3somVv2B3UvtkS'
+    'zdpuB1WjYbqJDMkjn3SbmbxctdzWKjQg7D5RqGBkMYXb62a53'
 ]
 
 

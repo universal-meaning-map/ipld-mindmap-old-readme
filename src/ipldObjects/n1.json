@@ -1,35 +1,23 @@
 {
-    "/": "<CID1>",
-    "relationships": [
+    "origin": {
+        "link": {
+            "/": "QmUmg7BZC1YP1ca66rRtWKxpXp77WgVHrnv263JtDuvs2k"
+        }
+    },
+    "relations": [
         {
-            "destinationNode": "<CID3>"
+            "target": {
+                "link": {
+                    "/": "zdpuAvYJaZxBjTV4WH3irwThm5t2a7yTccoN9cWpDmtV4CiNz"
+                }
+            }
         },
         {
-            "destinationNode": "<CID4>"
-        },
-        {
-            "destinationNode": "<CID5>"
-        },
-        {
-            "destinationNode": "<CID6>"
-        },
-        {
-            "destinationNode": "<CID6>"
-        },
-        {
-            "destinationNode": "<CID7>"
-        },
-        {
-            "destinationNode": "<CID8>"
-        },
-        {
-            "destinationNode": "<CID9>"
-        },
-        {
-            "destinationNode": "<CID10>"
-        },
-        {
-            "destinationNode": "<CID11>"
+            "target": {
+                "link": {
+                    "/": "zdpuAyvmoJWTiVrCv1aCHV5xUZ1fxUf4XLkrprKPMMFCNKfj3"
+                }
+            }
         }
     ]
 }
