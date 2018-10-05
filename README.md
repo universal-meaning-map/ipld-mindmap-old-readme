@@ -44,9 +44,14 @@ For _Global domain_ we understand that there is only one single giant mindmap.
 
 Which means that we need to be able to break in down into smaller subsets/pieces. The atomic piece of a mindmap is a node.
 
-**This implies that each node needs to contain and describe the relationships with all the other nodes it is interested, because if broken apart, it will loose information it cares about.**
+A node is nothing but a set of `relations` around a concept/content/idea. We call this "concept" `origin`.
+So the `origin` is the data that represents where the `relations` are coming form.
 
-In other words, relationships come out of the current node, never in (at least from the nodes perspective). If that was the case we will have a duplicated source of truth (the relationship from the incoming node and the relationship from the current node). This does not mean that the relatshionship can't represent a direction.
+These relations are towards another piece of data. From the `node` perspective, we call these data `targets`
+
+**This implies that each `node` needs to contain and describe the `relations` with all the other `targets` it is interested, because if broken apart, it will loose information it cares about.**
+
+In other words, `relations` come out of the `origin`, **never** in (at least from the `origin` perspective). If that was the case we will have a duplicated source of truth (the `relation` from the incoming `origin` and the `relation` from the current `origin`). This does not mean that the relation can't represent an incoming direction.
 
 It makes a node behave selfishly, which is the logical behaviour in a distributed system.
 
@@ -56,101 +61,101 @@ A subset representation of the mindmap will then be just a lists of nodes
 
 _In the following examples nodes will be shown as part of an array, but it likley makes more sense to be handled independently (The array should not be part of the IPLD object?)_
 
-```
+```json
 [
     {
-        "nodeId":"Node1"
+        "origin":"Node1",
     },
     {
-        "nodeId":"Node2"
+        "origin":"Node2"
     },
 ]
 ```
 
 ### Relationships and nodes
-We understand relationship as how a node relates to another node.
+We understand `relation` as how a piece of data relates (`origin`) to another peice of data (`target`)
 
-A node can have an arbitrary number of relationships. For ease of use, and to save some memory this seems the logical representation:
+A node can have an arbitrary number of `relations`. For ease of use, and to save some memory this seems the logical representation:
 
-```
+```json
 [
     {
-        "nodeId":"Node1",
-        "relationships": [relationship1, relationship2]
+        "origin":"Node1",
+        "relations": [relation1, relation2]
     },
     {
-        "nodeId":"Node2",
-        "relationships": []
+        "origin":"Node2",
+        "relations": []
     },
 ]
 ```
 
-But because we're on a global domain, the same node may have different relationships in a different subset of the mindmap. This implies that it can also be represented like this:
+But because we're on a global domain, the same node may have different relations in a different subset of the mindmap. This implies that it can also be represented like this:
 
-```
+```json
 [
     {
-        "nodeId":"Node1",
-        "relationships": [relationship1]
+        "origin":"Node1",
+        "relations": [relation1]
     },
     {
-        "nodeId":"Node1",
-        "relationships": [relationship2]
+        "origin":"Node1",
+        "relations": [relation2]
     },
     {
-        "nodeId":"Node2",
-        "relationships": []
+        "origin":"Node2",
+        "relations": []
     },
 ]
 ```
 
 ### Relationship definition
-To define a relationship we need two nodes and a definition of the `type` of relationship they have between them.
+To define a relation we need two nodes and a definition of the `type` of relation they have between them.
 
 The `type` is not mandatory. 
 
-Because the selfish behaviour of a node described above, a reltionship is always described from the perspective of the node being represented towards the `destination node`
+Because the selfish behaviour of a node described above, a reltionship is always described from the perspective of the `origin` towards the `target`
 
-```
+```json
 [
     {
-        "nodeId":"Son",
-        "relationships": [
+        "origin":"Son",
+        "relations": [
             {
-                destinationNode: "Dad"
+                target: "Dad"
                 type: "Is my dad"
             }
         ]
     },
     {
-        "nodeId":"Dad",
-        "relationships": [
+        "origin":"Dad",
+        "relations": [
             {
-                destinationNode: "Son"
+                target: "Son"
                 type: "Is my son"
             }
         ]
-    },
+    }
 ]
 ```
-The selfhish behaviour implies that there is no way to guarantee the integrity of the information, since the nodes could express conflicting information. And that's ok.
+The selfhish behaviour implies that there is no way to guarantee the integrity of the information, since the nodes could express conflicting information. And that's ok because **each node have it's own truth**.
 
-```
+```json
 [
     {
-        "nodeId":"Son",
-        "realtionships": [
+        "origin":"Son",
+        "relations": [
             {
-                destinationNode: "Dad"
+                target: "Dad"
                 type: "Is NOT my dad"
             }
         ]
     },
     {
-        "nodeId":"Dad",
-        "realtionships": [
+        "origin":"Dad",
+        "relations": [
             {
-                destinationNode: "Son"
+                target: "Son"
                 type: "Is my son"
             }
         ]
@@ -158,72 +163,94 @@ The selfhish behaviour implies that there is no way to guarantee the integrity o
 ]
 ```
 
-### IPLD links ("/) and CIDs as nodeIDs
-In the previous examples we've used the `nodeId` field, to uniquely identifiy a node.
-This was just used for explanation purposes. It does not make sense in a global domain.
+### Merkle paths as identifiers
+In the previous examples we've used sample text in the `origin` field, to uniquely identifiy a piece of data.
+This was just used for explanation purposes. It does not make sense in a global domain. And identifier needs to be global.
 
-Instead we will use the [CID](https://github.com/ipld/cid) of the node itself. This is basically its hashed value of the content of the node (not the node itself)
+We first thought about using the [CID](https://github.com/ipld/cid) of the node or content itself. This is basically its hashed value of the content of the node (not the node itself), but then we realized that a  [`merkle-path`](https://github.com/ipld/specs/blob/master/IPLD.md#what-is-a-merkle-path) was a better choice.
 
-The problem with it is that we may not have this value to start, since the data may not be directly referenced. IPLD uses the `/` and the `data` field to point to the data. You can read more [here](https://github.com/ipld/specs/blob/master/IPLD.md).
+Both the `CID`s and the `merkle-path`s are unique global identifiers. But the `merkle-path` allows to point to mutable content (if referencing to an [IPNS](http://127.0.0.1:8080/ipns/docs.ipfs.io/guides/concepts/ipns/) link)
+Plus a `CID` can be represented as `merkle-path` as well.
 
-This means that when we originally get a IPLD object representing a bunch of nodes, the content of these node can be referenced in different manners.
+This also allows us to not have to dereference the `merkle-path` in order to obtain the `CID`.
 
-Directly pointing to the CID:  
-`"/" : "QmUmg7BZC1YP1ca66rRtWKxpXp77WgVHrnv263JtDuvs2k"`
+### Pointing to anything [todo]
+Nodes vs cids...
 
-Providing the data itself (we need to hash it to get the CID):  
-`"data" :"I'm the node content"`
+### The data structure
+Considering all the above, a representation of a `node` as an `IPLD` object looks like this
+_Check the [terminology](##-terminologiy) section if any doubt_
 
-Using a merkle-path (we need to traverse it and then hash it to get the CID):  
-`"/" : "QmUmg7BZC1YP1ca66rRtWKxpXp77WgVHrnv263JtDuvs2k/a/b/c/d"`
+```json
+{
+    "origin": {
+        "link": {
+            "/": "QmUmg7BZC1YP1ca66rRtWKxpXp77WgVHrnv263JtDuvs2k"
+        }
+    },
+    "relations": [
+        {
+            "target": {
+                "link": {
+                    "/": "zdpuAvYJaZxBjTV4WH3irwThm5t2a7yTccoN9cWpDmtV4CiNz"
+                }
+            },
+            "type": {
+                "link": {
+                    "/": "zdpuAvYJaZxBjTV4WH3irwThm5t2a7yTccoN9cWpDmtV4CiNz"
+                }
+            }
+        },
+        {
+            "target": {
+                "link": {
+                    "/": "zdpuAyvmoJWTiVrCv1aCHV5xUZ1fxUf4XLkrprKPMMFCNKfj3"
+                }
+            }
+        }
+    ]
+}
+```
 
-
-In the first two cases, we can get the CID inmediatly. In the case of the merkle-path we may not obtain the CID, or it may take a while.
-- We need to retrieve the IPFS object first, so we can traverse it.
-- The IPFS object may not be available
-- Maybe we don't want to traverse,  the subset may be very big and we want to limit it.
-
-In those cases, and while is not resolved, we can use the merkle-path in itself as a unique ID
-
-### Infinite relationship types
+### Infinite relation types
 One of our frustrations and things we are exploring in detail, is how can we extend how do we relate to information beyond what a user interface or the underlying system allows.
 
-In this case, it translates on allowing the user to definie how a piece of information relates to another. So a `relationship` can have a `type`, which is nothing but a `CID` pointing to a expression of the type of relationship.
+In this case, it translates on allowing the user to definie how a piece of information relates to another. So a `relation` can have a `type`, which is nothing but a `merkle-path` pointing to an expression of the type of relation.
 
-A `type` of `relationship` could be "depends on", "is my dad", "contains"... or anything (text or not). It is the job of the render to understand what this `type` means and how to represent it.
+A `type` of a `relation` could be "depends on", "is my dad", "contains"... or anything (text or not). It is the job of the render to understand what this `type` means and how to represent it.
 
-### Render vs structure
+### Render vs structure [outdated]
 _This is a work in progress_
 
-If we take a classic mindmap, the connections and nodes may have different shapes, sizes, colors... This is what the render should do. It needs to understand the relationships and the nodes so they can be drawn.
+If we take a classic mindmap, the connections and nodes may have different shapes, sizes, colors... This is what the render should do. It needs to understand the relations and the nodes so they can be drawn.
 
-It would be easy to add properties such as "color", so the render can pick it up. But unless this is something intrinsic of the node or relationship, should be left out of the equation.
+It would be easy to add properties such as "color", so the render can pick it up. But unless this is something intrinsic of the node or relation, should be left out of the equation.
 
 This is because the final goal is to be able capture and organize concepts, and not to visualize them in a specific way. We need to keep the data render agnostic. It just happen that we choose a mindmap like render to start exploring how to organize and render this type of data.
 
 
-### Render format
+### Render format [outdated]
 The render should be as dumb as possible and not have to care about how the data is gathered.
 So, we should prepare it before handing it out to it.
 
 Right now, and without much exploration, a list of `CIDs` and `node objects` seems a good aproach. This list should already have merged any duplicated node.
 
 Assming this data set:
-```
+```json
 [
     {
         "/":"<CID1>",
-        "relationships": [
+        "relations": [
             {
-                "destinationNode": "<CID2>"
+                "target": "<CID2>"
             }
         ]
     },
     {
         "/":"<CID1>",
-        "relationships": [
+        "relations": [
             {
-                "destinationNode": "<CID3>"
+                "target": "<CID3>"
             }
         ]
     },
@@ -235,16 +262,16 @@ Assming this data set:
 
 Should be mapped to:
 
-```
+```json
 {
     "<CID1>": {
         "/":"<CID1>",
-        relationships: [
+        relations: [
             {
-                "destinationNode": "<CID2>"
+                "target": "<CID2>"
             },
             {
-                "destinationNode": "<CID3>"
+                "target": "<CID3>"
             }
         ]
     },
@@ -263,9 +290,9 @@ Should be mapped to:
 ## Dimensions and recursivitiy
 _Work in progress_
 
-It is a requirement for our mindmap design to be able to represent relationships that our mind can naturally concieve such as a bi-directional link ( `A` ⇄ `B` ) or a [`direct graph`](https://en.wikipedia.org/wiki/Directed_graph) like connections ( `A` → `B` → `C` → `A` )
+It is a requirement for our mindmap design to be able to represent relations that our mind can naturally concieve such as a bi-directional link ( `A` ⇄ `B` ) or a [`direct graph`](https://en.wikipedia.org/wiki/Directed_graph) like connections ( `A` → `B` → `C` → `A` )
 
-We can express a relationships between two `CID`s as coordinate. Where the abscissa is the origin `CID` and the ordinate is the target `CID`. (`originCID`, `targetCID`)
+We can express a relations between two `CID`s as coordinate. Where the abscissa is the origin `CID` and the ordinate is the target `CID`. (`originCID`, `targetCID`)
 
 A bi-directional link: (`A`, `B`), (`B`, `B`)  
 And the direct graph: (`A`, `B`), (`B`, `C`), (`C`, `A`)
@@ -273,12 +300,12 @@ And the direct graph: (`A`, `B`), (`B`, `C`), (`C`, `A`)
 The problem is that the `IPFS` domain as single dimensional space. The points of this spaces are the `CID`s (assuming no collisions), which are just numbers on a line. This is a property we inherit from its [`DAG`](https://en.wikipedia.org/wiki/Directed_graph) structure.
 
 `IPLD` and therefore a `mindmap node` are part of the `IPFS` domain, so they live on this 1D world.
-This prevents us from making rescursive/ciclic references like the examples above, since pointing s, breaking the relationship in the process.
+This prevents us from making rescursive/ciclic references like the examples above, since pointing s, breaking the relation in the process.
 
 If we treat the `mindmap node` like it lives in a paral.lel domain we gain an extra degree of freedom.
 Now we have two 1D spaces. Both domains are made out `CID`s of a [multi-hash](https://github.com/multiformats/multihash) tuple. The `mindmap domain` only contains the `mindmap node`s set.  And the `content domain` contains all the `IPFS` `CID`s except the `mindmap node` `CID`s.  
 
-The trick here is that the node identifier is not its `CID` but the `originCID` (different dimension) and the two parameters of the relationship are from the `content domain` (they can't point to a `mindmap node` because it does not exist in their world).
+The trick here is that the node identifier is not its `CID` but the `originCID` (different dimension) and the two parameters of the relation are from the `content domain` (they can't point to a `mindmap node` because it does not exist in their world).
 
 `nX`(`cA`) → `cB` 
 `nY`(`cB`) → `cC`
@@ -296,6 +323,10 @@ _I will love to get more thoughts on this, and some help in improving the wordin
 
 ## Terminology
 
+### Node
+### Relation
+### Origin
+### Target
 ### Node cluster
 One of the [original specs](##-original-specs) was:
 > It needs to work on a global domain. This means that two different mindmaps pointing to the same concept should converge if put together
@@ -308,3 +339,12 @@ We call this convergence a `node cluster` (_would love a better name_). In other
 - `21/09/2018`: Documenting node identification. Documenting render format.
 - `26/09/2018`: Render shows basic nodes with mock data, nodes are selectable and can be navigated with arrow keys
 - `27/09/2018`: Converting this repo into a React-Create-App and the [ipld-mindmap-pts-render](https://github.com/arxiu/ipld-mindmap-pts-render) into a standalone component.
+- `01/09/2018`: A lot of discussions regarding the way nodes are organized
+- . Hierachical vs lists...
+- `05/10/2018`: Render has been refactored to fit all the new find-outs. Data structures are pretty solid. A lot of UI work is required.
+
+## Document TODOs
+- Implement https://github.com/ipfs-shipyard/window.ipfs-fallback
+- Polish Dimensions section
+- Finsish Terminology
+- Move the render stuff out to its repo
