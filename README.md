@@ -81,7 +81,7 @@ A node can have an arbitrary number of `relations`. For ease of use, and to save
 [
     {
         "origin":"Node1",
-        "relations": [relation1, relation2]
+        "relations": ["relation1", "relation2"]
     },
     {
         "origin":"Node2",
@@ -96,11 +96,11 @@ But because we're on a global domain, the same node may have different relations
 [
     {
         "origin":"Node1",
-        "relations": [relation1]
+        "relations": ["relation1"]
     },
     {
         "origin":"Node1",
-        "relations": [relation2]
+        "relations": ["relation2"]
     },
     {
         "origin":"Node2",
@@ -122,8 +122,8 @@ Because the selfish behaviour of a node described above, a reltionship is always
         "origin":"Son",
         "relations": [
             {
-                target: "Dad"
-                type: "Is my dad"
+                "target": "Dad",
+                "type": "Is my dad"
             }
         ]
     },
@@ -131,8 +131,8 @@ Because the selfish behaviour of a node described above, a reltionship is always
         "origin":"Dad",
         "relations": [
             {
-                target: "Son"
-                type: "Is my son"
+                "target": "Son",
+                "type": "Is my son"
             }
         ]
     }
@@ -146,8 +146,8 @@ The selfhish behaviour implies that there is no way to guarantee the integrity o
         "origin":"Son",
         "relations": [
             {
-                target: "Dad"
-                type: "Is NOT my dad"
+                "target": "Dad",
+                "type": "Is NOT my dad"
             }
         ]
     },
@@ -155,8 +155,8 @@ The selfhish behaviour implies that there is no way to guarantee the integrity o
         "origin":"Dad",
         "relations": [
             {
-                target: "Son"
-                type: "Is my son"
+                "target": "Son",
+                "type": "Is my son"
             }
         ]
     },
@@ -311,7 +311,7 @@ The trick here is that the node identifier is not its `CID` but the `originCID` 
 `nY`(`cB`) → `cC`
 `nZ`(`cC`) → `cA` 
 
-This implies that a node should not point to another node. Since it will be changing dimensions.
+This implies that a set of nodes can't be referencing to them self as a direct-graph.
 
 A [`node cluster`](###-node-cluster) is the set of nodes that are poining to the same `CID`.
 a coordinate in this space, where the abcissa is the content that is pointing at, and the ordenate is 
@@ -348,3 +348,4 @@ We call this convergence a `node cluster` (_would love a better name_). In other
 - Polish Dimensions section
 - Finsish Terminology
 - Move the render stuff out to its repo
+- Spell check
