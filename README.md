@@ -266,7 +266,7 @@ Should be mapped to:
 {
     "<CID1>": {
         "/":"<CID1>",
-        relations: [
+        "relations": [
             {
                 "target": "<CID2>"
             },
