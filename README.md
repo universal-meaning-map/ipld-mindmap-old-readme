@@ -339,6 +339,7 @@ We call this convergence a `node cluster` (_would love a better name_). In other
 - `21/09/2018`: Documenting node identification. Documenting render format.
 - `26/09/2018`: Render shows basic nodes with mock data, nodes are selectable and can be navigated with arrow keys
 - `27/09/2018`: Converting this repo into a React-Create-App and the [ipld-mindmap-pts-render](https://github.com/arxiu/ipld-mindmap-pts-render) into a standalone component.
+- `30/09/2018` : _Initital deadline reached_ (it's ok)
 - `01/09/2018`: A lot of discussions regarding the way nodes are organized
 - . Hierachical vs lists...
 - `05/10/2018`: Render has been refactored to fit all the new find-outs. Data structures are pretty solid. A lot of UI work is required.
