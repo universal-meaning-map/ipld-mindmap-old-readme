@@ -16,7 +16,7 @@ Collection of ideas and thoughts to establish the conceptual framework.
 
 1. We are at the Age of Information, which is not the same to say that we are living in the Age of Understanding. Information has no meaning by itself. 
 
-1. Brevity in communication is becoming a problem. The quest for being more efficient in an individual level, energy wise, is creating a deficit on the same quest from a collective perspective <span id="back1">[:hourglass:](#footnote1)</span>. But at the same time, “energy and resource efficiency is vital at the level of society and the biosphere” <sup id="back2">[2](#footnote2)</sup>.
+1. Brevity in communication is becoming a problem. The quest for being more efficient in an individual level, energy wise, is creating a deficit on the same quest from a collective perspective <sup id="back1">[:hourglass:](#footnote1)</sup>. But at the same time, “energy and resource efficiency is vital at the level of society and the biosphere” <sup id="back2">[2](#footnote2)</sup>.
 
 1. “intellectual labour will become increasingly more important relative to physical labour […] Where the price of information distribution is going towards zero with ever more efficient tools to distribute information is being invented. […] it is not clear what form markets for information will take with the evolution of the information age.” [5]
 
