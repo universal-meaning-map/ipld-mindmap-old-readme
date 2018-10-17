@@ -43,10 +43,10 @@ Deadline: end of September 2018
 ### Nodes in the global domain
 For _Global domain_ we understand that there is only one single giant mindmap.
 
-Which means that we need to be able to break in down into smaller subsets/pieces. The atomic piece of a mindmap is a node.
+Which means that we need to be able to break in down into smaller subsets/pieces. The atomic piece of a mindmap is a node (which is a very conflicting name that we would like to change)
 
 A node is nothing but a set of `relations` around a concept/content/idea. We call this "concept" `origin`.
-So the `origin` is the data that represents where the `relations` are coming form.
+So the `origin` is the data that represents where the `relations` are coming from.
 
 These relations are towards another piece of data. From the `node` perspective, we call these data `targets`
 
@@ -56,64 +56,25 @@ In other words, `relations` come out of the `origin`, **never** in (at least fro
 
 It makes a node behave selfishly, which is the logical behaviour in a distributed system.
 
-Since we're in a global domain we will need to represent a subset of the global mindmap.
+Since we're in a global domain we will need to represent a subset of the global mindmap. Which will be just a lists of nodes.
 
-A subset representation of the mindmap will then be just a lists of nodes
-
-_In the following examples nodes will be shown as part of an array, but it likley makes more sense to be handled independently (The array should not be part of the IPLD object?)_
-
-```json
-[
-    {
-        "origin":"Node1",
-    },
-    {
-        "origin":"Node2"
-    },
-]
-```
 
 ### Relationships and nodes
-We understand `relation` as how a piece of data relates (`origin`) to another peice of data (`target`)
-
-A node can have an arbitrary number of `relations`. For ease of use, and to save some memory this seems the logical representation:
+We understand `relation` as how a piece of data (`origin`) relates to another peice of data (`target`). A node can have an arbitrary number of `relations`.
 
 ```json
-[
     {
-        "origin":"Node1",
-        "relations": ["relation1", "relation2"]
-    },
-    {
-        "origin":"Node2",
-        "relations": []
-    },
-]
-```
+        "origin":"content1",
+        "relations": [
+            {"target": "content2"}
+            {"target": "content3"}
+        ]
+    }
 
-But because we're on a global domain, the same node may have different relations in a different subset of the mindmap. This implies that it can also be represented like this:
-
-```json
-[
-    {
-        "origin":"Node1",
-        "relations": ["relation1"]
-    },
-    {
-        "origin":"Node1",
-        "relations": ["relation2"]
-    },
-    {
-        "origin":"Node2",
-        "relations": []
-    },
-]
 ```
 
 ### Relationship definition
-To define a relation we need two nodes and a definition of the `type` of relation they have between them.
-
-The `type` is not mandatory. 
+Because we want to maximize the expressivity a relation should be able to have a `type`, which would allow to define **how** two pieces of content relate to each other.
 
 Because the selfish behaviour of a node described above, a reltionship is always described from the perspective of the `origin` towards the `target`
 
