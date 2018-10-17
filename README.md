@@ -5,11 +5,11 @@ We're in a personal contest to understand and try to change how do we organize o
 
 Since the scope of the project is inmense, we're going to tackle small projects to get insight, while creating new tools to allow new ways to relate to information.
 
-This is the first "project" we try to tackle. While creating a tool is the main goal, is likley that we will also be exploring  working frameworks and different documentation praxis.
+The limitations around organizing information in a way that is meaningful for the individual has been one of the driving frustrations that has triggered us to digg deep into these issues. At the same time we believe that defining how information is organized and structured is a necessary buliding block before exploring more advance systems.
 
-Documentation is important to us, because we are looking to solve problems in the best way possible, so if the logic behind is not good enough, we want to know. And probably you can help!
+This is the first "project" we try to tackle. While creating a tool is the main goal, is likley that we will also be exploring working frameworks and different documentation praxis.
 
-:)
+Documentation is important to us, because we are looking to solve problems in the best way possible, so if the logic behind is not good enough, we want to know. And probably you can help! We invite you to open an issue so we can discuss any question.
 
 ## Mindmap
 We like the idea of mindmap, a tool that allows to organize information in the way that your brain works and not in a simplified way restricted by a user interface or a data structure.
