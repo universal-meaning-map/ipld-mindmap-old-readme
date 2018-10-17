@@ -1,4 +1,5 @@
 # IPLD Mindmap
+_[Current live version](https://arxiu.github.io/ipld-mindmap-pts-render)_
 
 ## Context
 We're in a personal contest to understand and try to change how do we organize our own information, and how it relates to others. The full explanation of why and how is something we're working on.
@@ -20,7 +21,7 @@ We like the idea of mindmap, a tool that allows to organize information in the w
 
 -  Create a tool that would allow to represent what you could do in a analog mindmap, but in a digital format.
 -  The main goal is to design and justifiy the correct data structure.
-    - [] It needs to work on a global domain. This means that two different mindmaps pointing to the same concept should converge if put together
+    - It needs to work on a global domain. This means that two different mindmaps pointing to the same concept should converge if put together
     -  It extends [IPLD](https://ipld.io/)
     -  As simple as possible
     -  As generic as possible (can cover as many usecases as possible)
@@ -323,7 +324,16 @@ _I will love to get more thoughts on this, and some help in improving the wordin
 
 ## Terminology
 
+Terminology is becoming a problem. We need more precise vocabulary in order to just discuss about all this. At the same time this is forcing ous to re-define concepts that had a little to broad definition.
+
 ### Node
+We are working towards eliminating this word from our dictionary because it keeps  generating confusion. There are a lot of types of nodes, they almost represent the same thing, but they don't.
+
+That said, we don't have new words yet.
+
+The original idea we were referring to was the graphical representation of a node in a mindmap. A vertex with one or more relations
+
+
 ### Relation
 ### Origin
 ### Target
@@ -343,10 +353,12 @@ We call this convergence a `node cluster` (_would love a better name_). In other
 - `01/09/2018`: A lot of discussions regarding the way nodes are organized
 - . Hierachical vs lists...
 - `05/10/2018`: Render has been refactored to fit all the new find-outs. Data structures are pretty solid. A lot of UI work is required.
+- `13/10/2018`: The previous week has mostly been dedicated to add mutability to the nodes in the render. Because of it, the render codebase got a little more complex that I would like.
+- `14/10/2018`: There is now a [first version](https://arxiu.github.io/ipld-mindmap-pts-render) you can play around!
+- `15/10/2018`: We met with Victor and discussed deeply about the this project. We also made a choppy demo at the IPFS hands on call. 
+- `17/10/2018`: We're travelling (by car) from Girona to Berlin, to be around the Web3 Summit.
 
 ## Document TODOs
-- Implement https://github.com/ipfs-shipyard/window.ipfs-fallback
 - Polish Dimensions section
 - Finsish Terminology
-- Move the render stuff out to its repo
 - Spell check
