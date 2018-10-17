@@ -14,13 +14,13 @@ Documentation is important to us, because we are looking to solve problems in th
 ## Mindmap
 We like the idea of mindmap, a tool that allows to organize information in the way that your brain works and not in a simplified way restricted by a user interface or a data structure.
 
-[The wikpedia entry](https://en.wikipedia.org/wiki/Mind_map) says that mindmaps are hierachical and around a single concept. Our aproach is more generic. We want a tool to organize our brain, and this implies non hierachical structures.
+[The wikpedia entry](https://en.wikipedia.org/wiki/Mind_map) says that mindmaps are hierachical and around a single concept. We're not making a reference to this exact concept, although it shares a lot of points in common.
 
 ## Original specs
 
 - [ ] Create a tool that would allow to represent what you could do in a analog mindmap, but in a digital format.
 - [ ] The main goal is to design and justifiy the correct data structure.
-    - [ ] It needs to work on a global domain. This means that two different mindmaps pointing to the same concept should converge if put together
+    - [] It needs to work on a global domain. This means that two different mindmaps pointing to the same concept should converge if put together
     - [ ] It extends [IPLD](https://ipld.io/)
     - [ ] As simple as possible
     - [ ] As generic as possible (can cover as many usecases as possible)
