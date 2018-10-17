@@ -18,22 +18,22 @@ We like the idea of mindmap, a tool that allows to organize information in the w
 
 ## Original specs
 
-- [ ] Create a tool that would allow to represent what you could do in a analog mindmap, but in a digital format.
-- [ ] The main goal is to design and justifiy the correct data structure.
+-  Create a tool that would allow to represent what you could do in a analog mindmap, but in a digital format.
+-  The main goal is to design and justifiy the correct data structure.
     - [] It needs to work on a global domain. This means that two different mindmaps pointing to the same concept should converge if put together
-    - [ ] It extends [IPLD](https://ipld.io/)
-    - [ ] As simple as possible
-    - [ ] As generic as possible (can cover as many usecases as possible)
-    - [ ] Any type of data should be able to be referenced
-- [ ] Eventually we'll explore authorship, accessibility, networking... but not yet.
-- [ ] It should have some basic visualization
-- [ ] The tool is render agnostic. Diferent renders can be eventually used.
-- [ ] We should document the process and the reasoning behind as close as possible
-- [ ] It should work on the web. Because of ease of use and development.
-- [ ] MVP approach. Keep things lean.
-- [ ] Nice to have
-    - [ ] Load content and render via IPFS
-    - [ ] Compatible with any IPFS/IPLD object
+    -  It extends [IPLD](https://ipld.io/)
+    -  As simple as possible
+    -  As generic as possible (can cover as many usecases as possible)
+    -  Any type of data should be able to be referenced
+-  Eventually we'll explore authorship, accessibility, networking... but not yet.
+-  It should have some basic visualization
+-  The tool is render agnostic. Diferent renders can be eventually used.
+-  We should document the process and the reasoning behind as close as possible
+-  It should work on the web. Because of ease of use and development.
+-  MVP approach. Keep things lean.
+-  Nice to have
+    -  Load content and render via IPFS
+    -  Compatible with any IPFS/IPLD object
 
 Deadline: end of September 2018
 
