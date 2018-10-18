@@ -73,8 +73,13 @@ We understand `relation` as how a piece of data (`origin`) relates to another pe
 
 ```
 
-### Relationship definition
-Because we want to maximize the expressivity a relation should be able to have a `type`, which would allow to define **how** two pieces of content relate to each other.
+### Relationship types
+
+One of our frustrations and things we are exploring in detail, is how can we extend how do we relate to information beyond what a user interface or the underlying system allows.
+
+In this case, it translates on allowing the user to definie how a piece of information relates to another. So a `relation` can have a `type`, which is nothing but a reference to an expression of the `type` of relation.
+
+A `type` of a `relation` could be "depends on", "is my dad", "contains"... or anything (text or not). It is the job of the `render` to understand what this `type` means and how to represent it.
 
 Because the selfish behaviour of a node described above, a reltionship is always described from the perspective of the `origin` towards the `target`
 
@@ -129,7 +134,7 @@ The selfhish behaviour implies that there is no way to guarantee the integrity o
 In the previous examples we've used sample text in the `origin` field, to uniquely identifiy a piece of data.
 This was just used for explanation purposes. It does not make sense in a global domain. And identifier needs to be global.
 
-We first thought about using the [CID](https://github.com/ipld/cid) of the node or content itself. This is basically its hashed value of the content of the node (not the node itself), but then we realized that a  [`merkle-path`](https://github.com/ipld/specs/blob/master/IPLD.md#what-is-a-merkle-path) was a better choice.
+We first thought about using the [CID](https://github.com/ipld/cid) of the content. This is basically its hashed, but then we realized that a  [`merkle-path`](https://github.com/ipld/specs/blob/master/IPLD.md#what-is-a-merkle-path) was a better choice.
 
 Both the `CID`s and the `merkle-path`s are unique global identifiers. But the `merkle-path` allows to point to mutable content (if referencing to an [IPNS](http://127.0.0.1:8080/ipns/docs.ipfs.io/guides/concepts/ipns/) link)
 Plus a `CID` can be represented as `merkle-path` as well.
@@ -141,7 +146,7 @@ Nodes vs cids...
 
 ### The data structure
 Considering all the above, a representation of a `node` as an `IPLD` object looks like this
-_Check the [terminology](##-terminologiy) section if any doubt_
+_TODO: The links are `CIDs` and should be `merkle-paths`._
 
 ```json
 {
@@ -174,12 +179,7 @@ _Check the [terminology](##-terminologiy) section if any doubt_
 }
 ```
 
-### Infinite relation types
-One of our frustrations and things we are exploring in detail, is how can we extend how do we relate to information beyond what a user interface or the underlying system allows.
 
-In this case, it translates on allowing the user to definie how a piece of information relates to another. So a `relation` can have a `type`, which is nothing but a `merkle-path` pointing to an expression of the type of relation.
-
-A `type` of a `relation` could be "depends on", "is my dad", "contains"... or anything (text or not). It is the job of the render to understand what this `type` means and how to represent it.
 
 ### Render vs structure [outdated]
 _This is a work in progress_
@@ -250,28 +250,36 @@ Should be mapped to:
 
 
 ## Dimensions and recursivitiy
-_Work in progress_
+_This is an attempt to understant the data structure from a different perspective, I'm pretty sure that there is works of others into this direction, so I would really appreciate references, or any insight to my naive aporach_
 
+
+### 1D
 It is a requirement for our mindmap design to be able to represent relations that our mind can naturally concieve such as a bi-directional link ( `A` ⇄ `B` ) or a [`direct graph`](https://en.wikipedia.org/wiki/Directed_graph) like connections ( `A` → `B` → `C` → `A` )
 
-We can express a relations between two `CID`s as coordinate. Where the abscissa is the origin `CID` and the ordinate is the target `CID`. (`originCID`, `targetCID`)
+We can express relations between two `CID`s as coordinate. Where the abscissa is the origin `CID` and the ordinate is the target `CID`. (`originCID`, `targetCID`)
 
-A bi-directional link: (`A`, `B`), (`B`, `B`)  
+A bi-directional link: (`A`, `B`), (`B`, `A`)  
 And the direct graph: (`A`, `B`), (`B`, `C`), (`C`, `A`)
 
-The problem is that the `IPFS` domain as single dimensional space. The points of this spaces are the `CID`s (assuming no collisions), which are just numbers on a line. This is a property we inherit from its [`DAG`](https://en.wikipedia.org/wiki/Directed_graph) structure.
+The problem is that the `IPFS` domain is single dimensional space. The points of this space are the `CID`s (assuming no collisions), which are just numbers on a line. This is a property we inherit from its [`DAG`](https://en.wikipedia.org/wiki/Directed_graph) structure.
 
-`IPLD` and therefore a `mindmap node` are part of the `IPFS` domain, so they live on this 1D world.
-This prevents us from making rescursive/ciclic references like the examples above, since pointing s, breaking the relation in the process.
+This means that if you add information to a content (`origin`), like a `relation`, now you have modified the hash of this content, therefore the `target` content that was pointing back to the `origin` is now pointing to the older version of it (the one without a relation)
+
+`IPLD` and therefore a `mindmap node` are part of the `IPFS` domain, so they live on this 1D world. This prevents us from making rescursive/ciclic references like the examples above, since pointing something back modifies the content it self.
+
+### 2D
+
+This is not the case, the reason being, is that we encapsulate the coordinate into another object, the `mindmap node`
 
 If we treat the `mindmap node` like it lives in a paral.lel domain we gain an extra degree of freedom.
 Now we have two 1D spaces. Both domains are made out `CID`s of a [multi-hash](https://github.com/multiformats/multihash) tuple. The `mindmap domain` only contains the `mindmap node`s set.  And the `content domain` contains all the `IPFS` `CID`s except the `mindmap node` `CID`s.  
 
-The trick here is that the node identifier is not its `CID` but the `originCID` (different dimension) and the two parameters of the relation are from the `content domain` (they can't point to a `mindmap node` because it does not exist in their world).
+So the hash of the coordinate lives on the `mindmap node`'s set(expressed with an `n` in front), while the values of the coordinate live o the only `CID`s domain
+The trick here is that the node identifier is not its `CID` but the `originCID` (different dimension) and the two parameters of the relation are from the `content domain` (expressed with the `c` in front). The 
 
-`nX`(`cA`) → `cB` 
-`nY`(`cB`) → `cC`
-`nZ`(`cC`) → `cA` 
+`nX`(`cA`,`cB`) 
+`nY`(`cB`,`cC`)
+`nZ`(`cC`,`cA`) 
 
 This implies that a set of nodes can't be referencing to them self as a direct-graph.
 
@@ -280,6 +288,12 @@ a coordinate in this space, where the abcissa is the content that is pointing at
 
 _I will love to get more thoughts on this, and some help in improving the wording_
 
+
+## Targeting nodes
+If we consider that `origin` and the `target` are references to arbirary content. What we have is nothing else but data linked 
+
+If the origin now points to a `node`
+From my perspective, this is why 
 ### Relationship dimensions
 ...
 
@@ -320,6 +334,8 @@ We call this convergence a `node cluster` (_would love a better name_). In other
 - `17/10/2018`: We're travelling (by car) from Girona to Berlin, to be around the Web3 Summit.
 
 ## Document TODOs
+- Relation types as JSON linked data
+- Explain `render`
 - Polish Dimensions section
-- Finsish Terminology
+- Terminology
 - Spell check
