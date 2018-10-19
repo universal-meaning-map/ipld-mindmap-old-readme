@@ -250,38 +250,44 @@ Should be mapped to:
 
 
 ## Dimensions and recursivitiy
-_This is an attempt to understant the data structure from a different perspective, I'm pretty sure that there is works of others into this direction, so I would really appreciate references, or any insight to my naive aporach_
-
+_This is an attempt to understant the data structure from a different perspective, While developin it I found already a lot of references around graph theory and geometry and I'm pretty sure that there a lot more. I would highly appreciate references and insights to polish my naive aporach_
 
 ### 1D
 It is a requirement for our mindmap design to be able to represent relations that our mind can naturally concieve such as a bi-directional link ( `A` ⇄ `B` ) or a [`direct graph`](https://en.wikipedia.org/wiki/Directed_graph) like connections ( `A` → `B` → `C` → `A` )
 
-We can express relations between two `CID`s as coordinate. Where the abscissa is the origin `CID` and the ordinate is the target `CID`. (`originCID`, `targetCID`)
+The `IPFS` domain is single dimensional space. The points of this space are the `CID`s (assuming no collisions), which are just numbers on a line. This is a property we inherit from its [`DAG`](https://en.wikipedia.org/wiki/Directed_graph) structure.
 
-A bi-directional link: (`A`, `B`), (`B`, `A`)  
-And the direct graph: (`A`, `B`), (`B`, `C`), (`C`, `A`)
+This means that we can't make ciclic references within this domain. If you add information to a content (`origin`), like a `relation`, now you have modified the hash of this content, therefore the `target` content that was pointing back to the `origin` is now pointing to the older version of it (the one without a relation)
 
-The problem is that the `IPFS` domain is single dimensional space. The points of this space are the `CID`s (assuming no collisions), which are just numbers on a line. This is a property we inherit from its [`DAG`](https://en.wikipedia.org/wiki/Directed_graph) structure.
-
-This means that if you add information to a content (`origin`), like a `relation`, now you have modified the hash of this content, therefore the `target` content that was pointing back to the `origin` is now pointing to the older version of it (the one without a relation)
-
-`IPLD` and therefore a `mindmap node` are part of the `IPFS` domain, so they live on this 1D world. This prevents us from making rescursive/ciclic references like the examples above, since pointing something back modifies the content it self.
+`IPLD` and therefore a `mindmap node` are part of the `IPFS` domain, so they live on this 1D world.
 
 ### 2D
+We can express a relation between two pieces of content as coordinate. Where the abscissa is the `origin` `CID` and the ordinate is the `target` `CID`:
 
-This is not the case, the reason being, is that we encapsulate the coordinate into another object, the `mindmap node`
+(`originCID`, `targetCID`)
 
-If we treat the `mindmap node` like it lives in a paral.lel domain we gain an extra degree of freedom.
-Now we have two 1D spaces. Both domains are made out `CID`s of a [multi-hash](https://github.com/multiformats/multihash) tuple. The `mindmap domain` only contains the `mindmap node`s set.  And the `content domain` contains all the `IPFS` `CID`s except the `mindmap node` `CID`s.  
+Therefore you could express...
+A bi-directional link: (`A`, `B`), (`B`, `A`)  
+And a direct graph: (`A`, `B`), (`B`, `C`), (`C`, `A`)
 
-So the hash of the coordinate lives on the `mindmap node`'s set(expressed with an `n` in front), while the values of the coordinate live o the only `CID`s domain
-The trick here is that the node identifier is not its `CID` but the `originCID` (different dimension) and the two parameters of the relation are from the `content domain` (expressed with the `c` in front). The 
+By expressing them in that way we added a second dimention, the one where the coordinates live.
 
-`nX`(`cA`,`cB`) 
-`nY`(`cB`,`cC`)
-`nZ`(`cC`,`cA`) 
+Now we have two 1D spaces. Both domains are made out `CID`s of a [multi-hash](https://github.com/multiformats/multihash) tuple.
 
-This implies that a set of nodes can't be referencing to them self as a direct-graph.
+The `coordinates domain` only contains the hashes of the `coordinates`s set.(expressed with an `n` in front)
+And the `content domain` contains all the content `CID`s excluding the `coordinates`.  
+
+Here `i` is to express the `coordinates domain` and `k` is to express the `content domain`:
+
+`iX` = (`kA`,`kB`) 
+`iY` = (`kB`,`kC`)
+`iZ` = (`kC`,`kA`) 
+
+This is all to express how a piece of content can have bi-directional or ciclic relations.
+
+## Hierchies
+
+
 
 A [`node cluster`](###-node-cluster) is the set of nodes that are poining to the same `CID`.
 a coordinate in this space, where the abcissa is the content that is pointing at, and the ordenate is 
