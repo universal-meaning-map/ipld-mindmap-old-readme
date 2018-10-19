@@ -250,7 +250,7 @@ Should be mapped to:
 
 
 ## Dimensions and recursivitiy
-_This is an attempt to understant the data structure from a different perspective, While developin it I found already a lot of references around graph theory and geometry and I'm pretty sure that there a lot more. I would highly appreciate references and insights to polish my naive aporach_
+_This is an attempt to understant the data structure from a different perspective, While developing it I found already a lot of references around graph theory and geometry and I'm pretty sure that there a lot more. I would highly appreciate references and insights to polish my naive aporach_
 
 ### 1D
 It is a requirement for our mindmap design to be able to represent relations that our mind can naturally concieve such as a bi-directional link ( `A` ⇄ `B` ) or a [`direct graph`](https://en.wikipedia.org/wiki/Directed_graph) like connections ( `A` → `B` → `C` → `A` )
@@ -262,7 +262,7 @@ This means that we can't make ciclic references within this domain. If you add i
 `IPLD` and therefore a `mindmap node` are part of the `IPFS` domain, so they live on this 1D world.
 
 ### 2D
-We can express a relation between two pieces of content as coordinate. Where the abscissa is the `origin` `CID` =and the ordinate is the `target` `CID`:
+We can express a relation between two pieces of content as coordinate. Where the abscissa is the `origin` `CID` and the ordinate is the `target` `CID`:
 
 (`originCID`, `targetCID`)
 
@@ -270,7 +270,7 @@ Therefore you could express...
 A bi-directional link: (`A`, `B`), (`B`, `A`)  
 And a direct graph: (`A`, `B`), (`B`, `C`), (`C`, `A`)
 
-By expressing them in that way we added a second dimention, the one where the coordinates live.
+By expressing them in that way we are adding a second dimencion, the one where the coordinates `CID` lives.
 
 Now we have two 1D spaces. Both domains are made out `CID`s of a [multi-hash](https://github.com/multiformats/multihash) tuple.
 
@@ -285,28 +285,27 @@ Here `i` is to express the `coordinates domain` and `k` is to express the `conte
 
 This is all to express how a piece of content can have bi-directional or ciclic relations.
 
-## Hierchies. Meaning beyond semantics
+## Pointing to relations
 
 Based on the above, there is another possible construction that for me is incredibly powerful and one of the main reasons I want to build this.
 
 `iX` = (`kA`,`iY`)
 
-In the expression below I have a coordinate `iX`, where the abcissa is a piece of content (`A`) of the coordinates domain (`k`), and the ordinates is not a content but another coordinate.
+In the expression above I have a coordinate `iX`, where the abcissa is a piece of content (`A`) of the coordinates domain (`k`), and the ordinates is not a content `CID` but a coordinate `CID`.
 
+It is basically saying that we can add relations to a relation.
 
+We can also point to a group of relations:
+`iY` = ((`kA`,`kB`), (`kC`,`kD`),(`kE`,`kF`))
 
-A [`node cluster`](###-node-cluster) is the set of nodes that are poining to the same `CID`.
-a coordinate in this space, where the abcissa is the content that is pointing at, and the ordenate is 
+## Pointing to your own truth
 
-_I will love to get more thoughts on this, and some help in improving the wording_
+Insteand of being an arbitrary group of relations, these relations can be around a single `origin` (notice `kA` being in all relations).
+`iZ` = ((`kA`,`kB`), (`kA`,`kC`),(`kA`,`kD`))
 
+You can start creating very complex definitions of what a concept/idea means to you.
 
-## Targeting nodes
-If we consider that `origin` and the `target` are references to arbirary content. What we have is nothing else but data linked 
-
-If the origin now points to a `node`
-From my perspective, this is why 
-### Relationship dimensions
+## Relationship dimensions
 ...
 
 ## Terminology
@@ -316,15 +315,7 @@ Terminology is becoming a problem. We need more precise vocabulary in order to j
 ### Node
 We are working towards eliminating this word from our dictionary because it keeps  generating confusion. There are a lot of types of nodes, they almost represent the same thing, but they don't.
 
-That said, we don't have new words yet.
-
-The original idea we were referring to was the graphical representation of a node in a mindmap. A vertex with one or more relations
-
-
-### Relation
-### Origin
-### Target
-### Node cluster
+### Node cluster [OUTDATED]
 One of the [original specs](##-original-specs) was:
 > It needs to work on a global domain. This means that two different mindmaps pointing to the same concept should converge if put together
 
@@ -344,7 +335,8 @@ We call this convergence a `node cluster` (_would love a better name_). In other
 - `14/10/2018`: There is now a [first version](https://arxiu.github.io/ipld-mindmap-pts-render) you can play around!
 - `15/10/2018`: We met with Victor and discussed deeply about the this project. We also made a choppy demo at the IPFS hands on call. 
 - `17/10/2018`: We're travelling (by car) from Girona to Berlin, to be around the Web3 Summit.
-
+- `19/10/2018`: We still travelling, but we've been using the free time to consolidate the documentation so it can be shared.
+  
 ## Document TODOs
 - Relation types as JSON linked data
 - Explain `render`
