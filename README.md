@@ -262,7 +262,7 @@ This means that we can't make ciclic references within this domain. If you add i
 `IPLD` and therefore a `mindmap node` are part of the `IPFS` domain, so they live on this 1D world.
 
 ### 2D
-We can express a relation between two pieces of content as coordinate. Where the abscissa is the `origin` `CID` and the ordinate is the `target` `CID`:
+We can express a relation between two pieces of content as coordinate. Where the abscissa is the `origin` `CID` =and the ordinate is the `target` `CID`:
 
 (`originCID`, `targetCID`)
 
@@ -285,7 +285,13 @@ Here `i` is to express the `coordinates domain` and `k` is to express the `conte
 
 This is all to express how a piece of content can have bi-directional or ciclic relations.
 
-## Hierchies
+## Hierchies. Meaning beyond semantics
+
+Based on the above, there is another possible construction that for me is incredibly powerful and one of the main reasons I want to build this.
+
+`iX` = (`kA`,`iY`)
+
+In the expression below I have a coordinate `iX`, where the abcissa is a piece of content (`A`) of the coordinates domain (`k`), and the ordinates is not a content but another coordinate.
 
 
 
