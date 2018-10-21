@@ -1,5 +1,6 @@
 # IPLD Mindmap
-_[Current live version](https://arxiu.github.io/ipld-mindmap-pts-render)_
+_[Live version](https://arxiu.github.io/ipld-mindmap-pts-render)_
+_[Basic instructions](https://github.com/arxiu/ipld-mindmap-pts-render)_
 
 ## Context
 We're in a personal contest to understand and try to change how do we organize our own information, and how it relates to everything else. The full explanation of why and how is something we're working on.
