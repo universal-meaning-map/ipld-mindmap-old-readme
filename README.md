@@ -136,13 +136,14 @@ This was just used for explanation purposes. It does not make sense in a global 
 
 We first thought about using the [CID](https://github.com/ipld/cid) of the content. This is basically its hash, but then we realized that a  [`merkle-path`](https://github.com/ipld/specs/blob/master/IPLD.md#what-is-a-merkle-path) was a better choice.
 
-Both the `CID`s and the `merkle-path`s are unique global identifiers. But the `merkle-path` allows pointing to mutable content (if referencing to an [IPNS](http://127.0.0.1:8080/ipns/docs.ipfs.io/guides/concepts/ipns/) link)
+Both the `CIDs` and the `merkle-paths` are unique global identifiers. But the `merkle-path` allows pointing to mutable content (if referencing to an [IPNS](http://127.0.0.1:8080/ipns/docs.ipfs.io/guides/concepts/ipns/) link)
 Plus a `CID` can be represented as `merkle-path` as well.
 
 This also allows us to not have to dereference the `merkle-path` in order to obtain the `CID`.
 
 ### The data structure
-Considering all the above, a representation of a `node` as an `IPLD` object looks like this
+Considering all the above, a representation of a `node` as an `IPLD` object looks like this:
+
 _TODO: The links are `CIDs` and should be `merkle-paths`._
 
 ```json
@@ -217,13 +218,13 @@ The `coordinates domain` only contains the hashes of the `coordinates` set. And 
 
 Here `i` is to express the `coordinates domain` and `k` is to express the `content domain`:
 
-`iX` = (`kA`,`kB`) 
-`iY` = (`kB`,`kC`)
-`iZ` = (`kC`,`kA`) 
+`iX` = (`kA`,`kB`)    
+`iY` = (`kB`,`kC`)  
+`iZ` = (`kC`,`kA`)  
 
 This is all to express how a piece of content can have bi-directional or cyclic relations.
 
-## Pointing to relations
+### Pointing to relations
 
 Based on the above, there is another possible construction that for me is incredibly powerful and one of the main reasons I want to build this.
 
@@ -231,20 +232,24 @@ Based on the above, there is another possible construction that for me is incred
 
 In the expression above I have a coordinate `iX`, where the abscissa is a piece of content (`A`) of the coordinates domain (`k`), and the ordinates is not a content `CID` but a coordinate `CID`.
 
-It is basically saying that we can add relations to a relation.
-Because the reasoning above it is not possible to have cyclic references between coordinates.
+It is basically saying that we can reference realations to a relation.
+Because the reasoning above it is not possible to have cyclic references between coordinates (unless you add a third dimention).
 
 We can also point to a group of relations:
 `iY` = ((`kA`,`kB`), (`kC`,`kD`),(`kE`,`kF`))
 
-## Pointing to your own truth
+### Pointing to your own truth. Definitions beyond semantics
 
 Instead of being an arbitrary group of relations, these relations can be around a single `origin` (notice `kA` being in all relations).
 `iZ` = ((`kA`,`kB`), (`kA`,`kC`),(`kA`,`kD`))
 
-You can start creating very complex definitions of what a concept/idea means to you.
+This is now a definition. `iZ` is the result of all the relations around `kA`.
 
-## Relationship dimensions
+This is not semantics anymore...  We're litteraly saying that `iZ` is exactly all this set of relations. `iZ` is the merkle-root of a tree of definitions.
+
+You can talk about a "car", and make a direct reference to the exact definition of what you mean by "car". It extends writting language. You can encapsulate complexity into a single link transcending the limitations of having to have concensus about what something means (dictionary).
+
+### Relationship dimensions
 ...
 
 ## Terminology
